@@ -1,6 +1,7 @@
 package com.example.webexample.controllers;
 
 import com.example.webexample.model.Person;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,17 +41,29 @@ public class PersonController {
 //                .collect(Collectors.toList());
 //    }
 
-    //Method to get all records - Short method
-    @GetMapping("/persons")
-    public List<Person> searchPersons(@RequestParam Map<String, String> parameters) {
+    //Method to get all records - Short method - object
+//    @GetMapping("/persons")
+//    public List<Person> searchPersons(@RequestParam Map<String, String> parameters) {
+//
+//        return persons.stream()
+//                .filter(p -> parameters.get("identification") == null || parameters.get("identification").equals(p.getIdentification()))
+//                .filter(p -> parameters.get("identificationType") == null || parameters.get("identificationType").equals(p.getIdentificationType()))
+//                .filter(p -> parameters.get("name") == null || parameters.get("name").equals(p.getName()))
+//                .filter(p -> parameters.get("lastName") == null || parameters.get("lastName").equals(p.getLastName()))
+//                .filter(p -> parameters.get("phone") == null || parameters.get("phone").equals(p.getPhone()))
+//                .collect(Collectors.toList());
+//    }
 
+    //Method to get all records - Short method - text plain
+    @GetMapping(value = "/persons", produces = MediaType.TEXT_PLAIN_VALUE)
+    public byte[] searchPersons(@RequestParam Map<String, String> parameters) {
         return persons.stream()
                 .filter(p -> parameters.get("identification") == null || parameters.get("identification").equals(p.getIdentification()))
                 .filter(p -> parameters.get("identificationType") == null || parameters.get("identificationType").equals(p.getIdentificationType()))
                 .filter(p -> parameters.get("name") == null || parameters.get("name").equals(p.getName()))
                 .filter(p -> parameters.get("lastName") == null || parameters.get("lastName").equals(p.getLastName()))
                 .filter(p -> parameters.get("phone") == null || parameters.get("phone").equals(p.getPhone()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()).toString().getBytes();
     }
 
 }

@@ -1,9 +1,11 @@
 package com.example.webexample.controllers;
 
 import com.example.webexample.model.Color;
+import com.example.webexample.model.Response;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -55,10 +57,25 @@ public class ColorsController {
     }
 
     //We add a new color
+//    @PostMapping("/colors")
+//    public String saveColor(@RequestBody Color color) {
+//        colors.add(color);
+//        return "Usted guardo Color: Id: " + color.getIdColor() + " Descripcion: " + color.getDescription();
+//    }
+
+    //We add a new color as an object
     @PostMapping("/colors")
-    public String saveColor(@RequestBody Color color) {
+    public Response saveColor(@RequestBody Color color) {
+
+        Response response = new Response();
+
         colors.add(color);
-        return "Usted guardo Color: Id: " + color.getIdColor() + " Descripcion: " + color.getDescription();
+
+        response.setCode(1L);
+        response.setMessage("Usted guardo Color: Id: " + color.getIdColor() + " Descripcion: " + color.getDescription());
+        response.setTimestamp(new Date().getTime());
+
+        return response;
     }
 
     //We update a color
